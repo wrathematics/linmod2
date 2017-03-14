@@ -7,7 +7,8 @@
 
 
 
-TODO
+The package is a rewrite of the [linmod linmod](https://github.com/wrathematics/linmod).
+
 
 
 ## Installation
