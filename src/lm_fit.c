@@ -236,7 +236,9 @@ SEXP R_lm_fit(SEXP x, SEXP y, SEXP intercept)
   INT(incpt_) = incpt;
   
   x_cp = malloc(m*n*sizeof(*x_cp));
-  CHECKMALLOC(x_cp);
+  if (x_cp == NULL)
+    THROW_MEMERR;
+  
   if (incpt)
   {
     for (int i=0; i<m; i++)
