@@ -5,6 +5,7 @@ Version: 0.1-0
 Description: A rewrite from the ground up of linear and generalized linear model
     fitters. These use modified versions of LAPACK routines (compared
     to R's use of LINPACK routines).
+License: BSD 2-clause License + file LICENSE
 Depends:
     R (>= 3.1.0)
 NeedsCompilation: yes
