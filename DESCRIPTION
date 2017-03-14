@@ -1,0 +1,17 @@
+Package: linmod2
+Type: Package
+Title: Linear and Generalized Linear Model Fitters
+Version: 0.1-0
+Description: A rewrite from the ground up of linear and generalized linear model
+    fitters. These use modified versions of LAPACK routines (compared
+    to R's use of LINPACK routines).
+Depends:
+    R (>= 3.1.0)
+NeedsCompilation: yes
+ByteCompile: yes
+URL: https://github.com/wrathematics/linmod2
+BugReports: https://github.com/wrathematics/linmod2/issues
+Authors@R: c(person("Drew", "Schmidt", role=c("aut", "cre"),
+    email="wrathematics@gmail.com"))
+Maintainer: Drew Schmidt <wrathematics@gmail.com>
+RoxygenNote: 6.0.1
