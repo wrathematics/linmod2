@@ -1,5 +1,5 @@
-#ifndef LINMOD2_TYPES_H_
-#define LINMOD2_TYPES_H_
+#ifndef __LINMOD2_TYPES_H__
+#define __LINMOD2_TYPES_H__
 
 
 #include <stdbool.h>
