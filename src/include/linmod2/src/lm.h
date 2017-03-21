@@ -155,7 +155,6 @@ static inline void lm_compute_fitted(linmodel_t *const restrict lm, dbl_r work, 
   {
     char uplo = 'U';
     
-    work[0] = 0;
     // fttd = x*coef = Q*R*coef
     dtrmm_(&side, &uplo, &trans, &diag, &lm->n, &lm->nrhs, &alpha, lm->x, &lm->m, lm->fttd, &lm->m);
     dormqr_(&side, &trans, &lm->m, &lm->nrhs, &lm->n, lm->x, &lm->m, work, lm->fttd, &lm->m, work+lm->n, &lwork, &lm->info);
