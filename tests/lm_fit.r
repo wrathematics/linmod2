@@ -14,8 +14,18 @@ mdl1 = .lm.fit(x, y)
 mdl2 = .lm_fit(x, y)
 
 cmp(mdl1$coefficients, mdl2$coefficients)
-cmp(mdl1$residuals, mdl2$residuals)
 cmp(x %*% mdl1$coefficients, mdl2$fitted.values)
+cmp(mdl1$residuals, mdl2$residuals)
+
+
+
+y = matrix(rnorm(m*3), m, 3)
+mdl1 = .lm.fit(x, y)
+mdl2 = .lm_fit(x, y)
+
+cmp(mdl1$coefficients, mdl2$coefficients)
+cmp(x %*% mdl1$coefficients, mdl2$fitted.values)
+cmp(mdl1$residuals, mdl2$residuals)
 
 
 
