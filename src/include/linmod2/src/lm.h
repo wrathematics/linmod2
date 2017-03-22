@@ -22,6 +22,7 @@ typedef struct linmodel
 } linmodel_t;
 
 
+
 static inline void copymat(cint m_in, cint m_out, cint n, cdbl_r in, dbl_r out)
 {
   const int min = MIN(m_in, m_out);
@@ -113,7 +114,7 @@ static inline void lm_compute_coefficients(linmodel_t *const restrict lm, dbl_r 
     for (int j=0; j<lm->nrhs; j++)
     {
       for (int i=0; i<n; i++)
-        lm->coef[i + m*j] = lm->eff[i + m*j];
+        lm->coef[i + n*j] = y[i + m*j];
     }
   }
   else
@@ -154,6 +155,7 @@ static inline void lm_compute_fitted(linmodel_t *const restrict lm, dbl_r work, 
   
   const int m = lm->m;
   const int n = lm->n;
+  const int nrhs = lm->nrhs;
   
   
   // we don't have x anymore so use the factorization in its place
@@ -161,11 +163,17 @@ static inline void lm_compute_fitted(linmodel_t *const restrict lm, dbl_r work, 
   {
     const char uplo = 'U';
     
-    copymat(m, n, lm->nrhs, lm->coef, lm->fttd);
+    // copymat(m, n, nrhs, lm->coef, lm->fttd);
+    memset(lm->fttd, 0, m*nrhs*sizeof(*lm->fttd));
+    for (int j=0; j<nrhs; j++)
+    {
+      for (int i=0; i<n; i++)
+        lm->fttd[i + m*j] = lm->coef[i + n*j];
+    }
     
     // fttd = x*coef = Q*R*coef
-    dtrmm_(&side, &uplo, &trans, &diag, &n, &lm->nrhs, &alpha, lm->x, &m, lm->fttd, &m);
-    dormqr_(&side, &trans, &m, &lm->nrhs, &n, lm->x, &m, work, lm->fttd, &m, work+n, &lwork, &lm->info);
+    dtrmm_(&side, &uplo, &trans, &diag, &n, &nrhs, &alpha, lm->x, &m, lm->fttd, &m);
+    dormqr_(&side, &trans, &m, &nrhs, &n, lm->x, &m, work, lm->fttd, &m, work+n, &lwork, &lm->info);
   }
   else
   {
@@ -173,12 +181,12 @@ static inline void lm_compute_fitted(linmodel_t *const restrict lm, dbl_r work, 
     
     // fttd = x*coef = L*Q*coef
     //FIXME lwork probably too small
-    for (int j=0; j<lm->nrhs; j++)
+    for (int j=0; j<nrhs; j++)
     {
       memcpy(work+lm->m, lm->coef, lm->n*sizeof(*work));
-      dormlq_(&side, &trans, &n, &lm->nrhs, &m, lm->x, &m, work, work+m, &lm->n, work+n+m, &lwork, &lm->info);
+      dormlq_(&side, &trans, &n, &nrhs, &m, lm->x, &m, work, work+m, &lm->n, work+n+m, &lwork, &lm->info);
       memcpy(lm->fttd + lm->m * j, work+lm->m, lm->m*sizeof(*work));
-      dtrmm_(&side, &uplo, &trans, &diag, &m, &lm->nrhs, &alpha, lm->x, &m, lm->fttd, &m);
+      dtrmm_(&side, &uplo, &trans, &diag, &m, &nrhs, &alpha, lm->x, &m, lm->fttd, &m);
     }
   }
 }
