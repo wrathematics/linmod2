@@ -98,13 +98,15 @@ static inline void lm_compute_coefficients(linmodel_t *const restrict lm, dbl_r 
   for (int j=0; j<lm->nrhs; j++)
   {
     for (int i=0; i<m; i++)
-    y[i + lm->max_mn*j] = lm->y[i + m*j];
+      y[i + lm->max_mn*j] = lm->y[i + m*j];
   }
   
   // dgels_(&trans, &lm->m, &lm->n, &lm->nrhs, lm->x, &lm->m, y, &lm->max_mn, work, &lwork, &lm->info);
   if (m >= n)
   {
+    // x = Q*R
     dgeqrf_(&m, &n, lm->x, &m, work, work+n, &lwork, &lm->info);
+    // coef = R^(-1) * Q^T * y
     dormqr_(&(char){'L'}, &(char){'T'}, &m, &lm->nrhs, &n, lm->x, &m, work, y, &m, work+n, &lwork, &lm->info);
     dtrtrs_(&(char){'U'}, &(char){'N'}, &(char){'N'}, &n, &lm->nrhs, lm->x, &m, y, &m, &lm->info);
     
@@ -114,10 +116,14 @@ static inline void lm_compute_coefficients(linmodel_t *const restrict lm, dbl_r 
         lm->coef[i + m*j] = lm->eff[i + m*j];
     }
   }
-  // else // TODO
-  // {
-  //   
-  // }
+  else
+  {
+    // x = L*Q
+    dgelqf_(&m, &n, lm->x, &m, work, work+m, &lwork, &lm->info);
+    // coef = Q^T * L^(-1) * y
+    dtrtrs_(&(char){'L'}, &(char){'N'}, &(char){'N'}, &m, &lm->nrhs, lm->x, &m, y, &n, &lm->info);
+    dormlq_(&(char){'L'}, &(char){'T'}, &n, &lm->nrhs, &m, lm->x, &m, work, y, &n, work+m, &lwork, &lm->info);
+  }
 }
 
 
@@ -146,26 +152,34 @@ static inline void lm_compute_fitted(linmodel_t *const restrict lm, dbl_r work, 
   const char diag = 'N';
   const double alpha = 1.0;
   
-  
-  copymat(lm->m, lm->n, lm->nrhs, lm->coef, lm->fttd);
+  const int m = lm->m;
+  const int n = lm->n;
   
   
   // we don't have x anymore so use the factorization in its place
-  if (lm->m >= lm->n)
+  if (m >= n)
   {
-    char uplo = 'U';
+    const char uplo = 'U';
+    
+    copymat(m, n, lm->nrhs, lm->coef, lm->fttd);
     
     // fttd = x*coef = Q*R*coef
-    dtrmm_(&side, &uplo, &trans, &diag, &lm->n, &lm->nrhs, &alpha, lm->x, &lm->m, lm->fttd, &lm->m);
-    dormqr_(&side, &trans, &lm->m, &lm->nrhs, &lm->n, lm->x, &lm->m, work, lm->fttd, &lm->m, work+lm->n, &lwork, &lm->info);
+    dtrmm_(&side, &uplo, &trans, &diag, &n, &lm->nrhs, &alpha, lm->x, &m, lm->fttd, &m);
+    dormqr_(&side, &trans, &m, &lm->nrhs, &n, lm->x, &m, work, lm->fttd, &m, work+n, &lwork, &lm->info);
   }
   else
   {
-    char uplo = 'L';
+    const char uplo = 'L';
     
     // fttd = x*coef = L*Q*coef
-    dormlq_(&side, &trans, &lm->m, &lm->nrhs, &lm->m, lm->x, &lm->m, work, lm->fttd, &lm->m, work+lm->m, &lwork, &lm->info);
-    dtrmm_(&side, &uplo, &trans, &diag, &lm->m, &lm->nrhs, &alpha, lm->x, &lm->m, lm->fttd, &lm->m);
+    //FIXME lwork probably too small
+    for (int j=0; j<lm->nrhs; j++)
+    {
+      memcpy(work+lm->m, lm->coef, lm->n*sizeof(*work));
+      dormlq_(&side, &trans, &n, &lm->nrhs, &m, lm->x, &m, work, work+m, &lm->n, work+n+m, &lwork, &lm->info);
+      memcpy(lm->fttd + lm->m * j, work+lm->m, lm->m*sizeof(*work));
+      dtrmm_(&side, &uplo, &trans, &diag, &m, &lm->nrhs, &alpha, lm->x, &m, lm->fttd, &m);
+    }
   }
 }
 
@@ -195,7 +209,7 @@ static inline int lm_fit(linmodel_t *const restrict lm)
   lm_compute_coefficients(lm, work, lwork);
   
   // effects = R*coef
-  lm_compute_effects(lm, work, lwork);
+  // lm_compute_effects(lm, work, lwork);
   
   // fitted values = X*coef
   lm_compute_fitted(lm, work, lwork);
