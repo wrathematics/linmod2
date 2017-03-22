@@ -23,6 +23,13 @@ SEXP R_lm_fit(SEXP x, SEXP y, SEXP intercept)
   newRmat(eff, m, nrhs, "dbl");
   newRvec(incpt_, 1, "int");
   
+  
+  memset(DBLP(coef), 0, n*nrhs*sizeof(double));
+  // memset(DBLP(resid), 0, m*nrhs*sizeof(double));
+  memset(DBLP(fttd), 0, m*nrhs*sizeof(double));
+  // memset(DBLP(eff), 0, m*nrhs*sizeof(double));
+  
+  
   INT(incpt_) = incpt;
   
   x_cp = malloc(m*n*sizeof(*x_cp));
