@@ -18,7 +18,7 @@ A basic linear model fitter.
 }
 \examples{
 \dontrun{
-library(linmod)
+library(linmod2)
 
 n <- 10
 p <- 3

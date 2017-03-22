@@ -11,7 +11,7 @@
 #' 
 #' @examples
 #' \dontrun{
-#' library(linmod)
+#' library(linmod2)
 #' 
 #' n <- 10
 #' p <- 3
