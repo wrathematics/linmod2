@@ -102,5 +102,5 @@ I prefer issues to be raised on github, but there are various ways to contact me
 * Author: Drew Schmidt:
 * Project home: https://github.com/wrathematics/linmod2
 * Bug reports: https://github.com/wrathematics/linmod2/issues
-* Email: wrathematics .AT. gmail.com
+* Email: wrathematics .AT. gmail .DOT. com
 * Twitter: @wrathematics
