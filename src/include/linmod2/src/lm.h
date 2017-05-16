@@ -24,6 +24,50 @@ typedef struct linmodel
 
 
 
+static inline int lm_init(const int ret_qraux, const int m, const int n, const int nrhs, double *restrict x, double *restrict y, linmodel_t *restrict lm)
+{
+  double *coef, *resid, *fttd, *eff, *qraux;
+  
+  LINMOD_TRY_MALLOC(1, lm);
+  LINMOD_TRY_MALLOC(n*nrhs, coef);
+  LINMOD_TRY_MALLOC(m*nrhs, resid);
+  LINMOD_TRY_MALLOC(m*nrhs, fttd);
+  LINMOD_TRY_MALLOC(m*nrhs, eff);
+  
+  if (ret_qraux)
+    LINMOD_TRY_MALLOC(n, qraux);
+  else
+    qraux = NULL;
+  
+  lm->m = m;
+  lm->n = n;
+  lm->max_mn = MAX(m, n);
+  lm->nrhs = nrhs;
+  lm->x = x;
+  lm->y = y;
+  lm->coef = coef;
+  lm->resid = resid;
+  lm->fttd = fttd;
+  lm->eff = eff;
+  lm->qraux = qraux;
+  lm->info = 0;
+  
+  return LINMOD2_OK;
+  
+  
+  
+OOM:
+  FREE(lm);
+  FREE(coef);
+  FREE(resid);
+  FREE(fttd);
+  FREE(eff);
+  
+  return LINMOD2_ERR_MALLOC;
+}
+
+
+
 static inline void copymat(cint m_in, cint m_out, cint n, cdbl_r in, dbl_r out)
 {
   const int min = MIN(m_in, m_out);
