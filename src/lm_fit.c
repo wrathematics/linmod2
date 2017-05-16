@@ -47,6 +47,7 @@ SEXP R_lm_fit_minimal(SEXP x, SEXP y, SEXP intercept)
   else
     memcpy(x_cp, DBLP(x), m*n*sizeof(*x_cp));
   
+  lm.oldx = REAL(x);
   lm.m = m;
   lm.n = n;
   lm.max_mn = MAX(m, n);
@@ -135,6 +136,7 @@ SEXP R_lm_fit(SEXP x, SEXP y, SEXP intercept)
   else
     memcpy(x_cp, DBLP(x), m*n*sizeof(*x_cp));
   
+  lm.oldx = REAL(x);
   lm.m = m;
   lm.n = n;
   lm.max_mn = MAX(m, n);
