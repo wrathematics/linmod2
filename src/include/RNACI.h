@@ -194,6 +194,8 @@ static inline SEXP __Rvecalloc(int n, char *type, int init)
   }
   else if (strncmp(type, "str", 1) == 0 || strncmp(type, "char*", 1) == 0)
     PROTECT(RET = allocVector(STRSXP, n));
+  else if (strncmp(type, "lgl", 1) == 0)
+    PROTECT(RET = allocVector(LGLSXP, n));
   else
     error("unknown allocation type\n");
   
