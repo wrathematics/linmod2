@@ -18,6 +18,7 @@ typedef struct linmodel
   double *restrict resid;
   double *restrict fttd;
   double *restrict eff;
+  double *restrict qraux; // NOTE set to NULL if you don't want the return
   int info;
 } linmodel_t;
 
@@ -214,6 +215,11 @@ static inline int lm_fit(linmodel_t *const restrict lm)
   // residuals = y - fitted
   lm_compute_residuals(lm);
   
+  if (lm->qraux != NULL)
+  {
+    for (int i=0; i<lm->n; i++)
+      (lm->qraux)[i] = work[i];
+  }
   
   free(work);
   
