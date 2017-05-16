@@ -22,6 +22,18 @@
 #' }
 #' 
 #' @rdname dotlm_fit
+NULL
+
+
+
+#' @rdname dotlm_fit
+#' @export
+.lm_fit_minimal <- function(x, y, intercept=FALSE)
+{
+  .Call(R_lm_fit_minimal, x, y, intercept)
+}
+
+#' @rdname dotlm_fit
 #' @export
 .lm_fit <- function(x, y, intercept=FALSE)
 {
