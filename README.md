@@ -9,7 +9,7 @@
 Fast, portable, numerically stable linear and generalized linear model fitters for C and R.
 
 Progress:
-* lm fitter (~70% done)
+* lm fitter (~75% done)
 * glm fitter (0% done)
 
 
@@ -72,25 +72,15 @@ library(linmod2)
 library(rbenchmark)
 
 
-m = 2000
+m = 10000
 n = 500
 x = matrix(rnorm(m*n), m, n)
 y = rnorm(m)
 
 benchmark(.lm.fit(x, y), .lm_fit(x, y), replications=25)
 ##            test replications elapsed relative
-## 2 .lm_fit(x, y)           25   0.883    1.000
-## 1 .lm.fit(x, y)           25   6.728    7.619
-
-m = 500
-n = 2000
-x = matrix(rnorm(m*n), m, n)
-y = rnorm(m)
-
-benchmark(.lm.fit(x, y), .lm_fit(x, y), replications=25)
-##            test replications elapsed relative
-## 2 .lm_fit(x, y)           25   1.521    1.000
-## 1 .lm.fit(x, y)           25   7.628    5.015
+## 2 .lm_fit(x, y)            5   1.133    1.000
+## 1 .lm.fit(x, y)            5   9.497    8.382
 ```
 
 
@@ -99,7 +89,7 @@ benchmark(.lm.fit(x, y), .lm_fit(x, y), replications=25)
 
 I prefer issues to be raised on github, but there are various ways to contact me for whatever reason:
 
-* Author: Drew Schmidt:
+* Author: Drew Schmidt
 * Project home: https://github.com/wrathematics/linmod2
 * Bug reports: https://github.com/wrathematics/linmod2/issues
 * Email: wrathematics .AT. gmail .DOT. com
