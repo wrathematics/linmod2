@@ -49,7 +49,7 @@ static inline int lm_fit_workspace(linmodel_t *const restrict lm, double **restr
   dgels_(&trans, &lm->m, &lm->n, &lm->nrhs, &(double){0}, &lm->m, &(double){0}, &lm->max_mn, &tmp, &(int){-1}, &lm->info);
   
   if (lm->info)
-    goto err_handler;
+    return LINMOD2_ERR_LAPACK;
   
   lwork = (int) tmp;
   
@@ -59,26 +59,15 @@ static inline int lm_fit_workspace(linmodel_t *const restrict lm, double **restr
     dormlq_(&side, &trans, &lm->m, &lm->nrhs, &lm->m, &(double){0}, &lm->m, &(double){0}, &(double){0}, &lm->m, &tmp, &(int){-1}, &lm->info);
   
   if (lm->info)
-    goto err_handler;
+    return LINMOD2_ERR_LAPACK;
   
   lwork = MAX((int) tmp, lwork);
   *work = malloc(lwork * sizeof(**work));
   
   if (work == NULL)
-    goto err_handler;
+    return LINMOD2_ERR_MALLOC;
   
   return lwork;
-  
-  
-err_handler:
-  
-  free(lm->x);
-  if (lm->info != 0)
-    THROW_LAPACKERR(lm->info);
-  if (work == NULL)
-    THROW_MEMERR;
-  
-  return -1;
 }
 
 
@@ -207,11 +196,11 @@ static inline void lm_compute_residuals(linmodel_t *const restrict lm)
 // the main driver
 static inline int lm_fit(linmodel_t *const restrict lm)
 {
-  double *work;
+  double *work = NULL;
   
   int lwork = lm_fit_workspace(lm, &work);
-  if (lwork == -1)
-    return -1;
+  if (lwork == LINMOD2_ERR_MALLOC)
+    return LINMOD2_ERR_MALLOC;
   
   // fit y ~ x
   lm_compute_coefficients(lm, work, lwork);
