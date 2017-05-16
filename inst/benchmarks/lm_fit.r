@@ -10,7 +10,7 @@ n = 500
 x = matrix(rnorm(m*n), m, n)
 y = rnorm(m)
 
-benchmark(.lm.fit(x, y), .lm_fit(x, y), replications=reps, columns=cols)
+benchmark(.lm.fit(x, y), .lm_fit(x, y), .lm_fit_minimal(x, y), replications=reps, columns=cols)
 
 
 
@@ -19,4 +19,4 @@ n = 2000
 x = matrix(rnorm(m*n), m, n)
 y = rnorm(m)
 
-benchmark(.lm.fit(x, y), .lm_fit(x, y), replications=reps, columns=cols)
+benchmark(.lm.fit(x, y), .lm_fit(x, y), .lm_fit_minimal(x, y), replications=reps, columns=cols)
