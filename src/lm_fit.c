@@ -56,11 +56,13 @@ SEXP R_lm_fit(SEXP x, SEXP y, SEXP intercept)
   lm.resid = DBLP(resid);
   lm.fttd = DBLP(fttd);
   lm.eff = DBLP(eff);
+  lm.qraux = NULL;
   
   int check = lm_fit(&lm);
   free(x_cp);
-  if (check == -1)
+  if (check == LINMOD2_ERR_MALLOC)
     THROW_MEMERR;
+  CHECKINFO(lm.info);
   
   ret_names = make_list_names(5, "coefficients", "fitted.values", "residuals", "effects", "intercept");
   ret = make_list(ret_names, 5, coef, fttd, resid, eff, incpt_);
