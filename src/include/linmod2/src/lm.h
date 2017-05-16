@@ -13,6 +13,7 @@ typedef struct linmodel
   int max_mn;
   int nrhs;
   double *restrict x;
+  double *restrict oldx; // keeping the copy around improves performance a bit
   const double *restrict y;
   double *restrict coef;
   double *restrict resid;
@@ -38,6 +39,8 @@ static inline int lm_init(const int ret_qraux, const int m, const int n, const i
     LINMOD_TRY_MALLOC(n, qraux);
   else
     qraux = NULL;
+  
+  lm->oldx = NULL;
   
   lm->m = m;
   lm->n = n;
@@ -180,6 +183,7 @@ static inline void lm_compute_effects(linmodel_t *const restrict lm, dbl_r work,
 
 
 
+#include "internal/mmult.h"
 static inline void lm_compute_fitted(linmodel_t *const restrict lm, dbl_r work, cint lwork)
 {
   const char side = 'L';
@@ -192,37 +196,42 @@ static inline void lm_compute_fitted(linmodel_t *const restrict lm, dbl_r work, 
   const int nrhs = lm->nrhs;
   
   
-  // we don't have x anymore so use the factorization in its place
-  if (m >= n)
+  if (lm->oldx == NULL)
   {
-    const char uplo = 'U';
-    
-    // copymat(m, n, nrhs, lm->coef, lm->fttd);
-    memset(lm->fttd, 0, m*nrhs*sizeof(*lm->fttd));
-    for (int j=0; j<nrhs; j++)
+    // we don't have x anymore so use the X=QR or X=LQ factorization in its place
+    if (m >= n)
     {
-      for (int i=0; i<n; i++)
+      const char uplo = 'U';
+      
+      copymat(m, n, nrhs, lm->coef, lm->fttd);
+      memset(lm->fttd, 0, m*nrhs*sizeof(*lm->fttd));
+      for (int j=0; j<nrhs; j++)
+      {
+        for (int i=0; i<n; i++)
         lm->fttd[i + m*j] = lm->coef[i + n*j];
+      }
+      
+      // fttd = x*coef = Q*R*coef
+      dtrmm_(&side, &uplo, &trans, &diag, &n, &nrhs, &alpha, lm->x, &m, lm->fttd, &m);
+      dormqr_(&side, &trans, &m, &nrhs, &n, lm->x, &m, work, lm->fttd, &m, work+n, &lwork, &lm->info);
     }
-    
-    // fttd = x*coef = Q*R*coef
-    dtrmm_(&side, &uplo, &trans, &diag, &n, &nrhs, &alpha, lm->x, &m, lm->fttd, &m);
-    dormqr_(&side, &trans, &m, &nrhs, &n, lm->x, &m, work, lm->fttd, &m, work+n, &lwork, &lm->info);
+    else
+    {
+      const char uplo = 'L';
+      
+      // fttd = x*coef = L*Q*coef
+      //FIXME lwork probably too small
+      for (int j=0; j<nrhs; j++)
+      {
+        memcpy(work+lm->m, lm->coef, lm->n*sizeof(*work));
+        dormlq_(&side, &trans, &n, &nrhs, &m, lm->x, &m, work, work+m, &lm->n, work+n+m, &lwork, &lm->info);
+        memcpy(lm->fttd + lm->m * j, work+lm->m, lm->m*sizeof(*work));
+        dtrmm_(&side, &uplo, &trans, &diag, &m, &nrhs, &alpha, lm->x, &m, lm->fttd, &m);
+      }
+    }
   }
   else
-  {
-    const char uplo = 'L';
-    
-    // fttd = x*coef = L*Q*coef
-    //FIXME lwork probably too small
-    for (int j=0; j<nrhs; j++)
-    {
-      memcpy(work+lm->m, lm->coef, lm->n*sizeof(*work));
-      dormlq_(&side, &trans, &n, &nrhs, &m, lm->x, &m, work, work+m, &lm->n, work+n+m, &lwork, &lm->info);
-      memcpy(lm->fttd + lm->m * j, work+lm->m, lm->m*sizeof(*work));
-      dtrmm_(&side, &uplo, &trans, &diag, &m, &nrhs, &alpha, lm->x, &m, lm->fttd, &m);
-    }
-  }
+    matmult(false, false, 1.0, lm->m, lm->n, lm->oldx, lm->n, lm->nrhs, lm->coef, lm->fttd);
 }
 
 
