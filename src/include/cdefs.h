@@ -1,5 +1,5 @@
-#ifndef LINMOD2_CDEFS_H_
-#define LINMOD2_CDEFS_H_
+#ifndef R_LINMOD2_CDEFS_H_
+#define R_LINMOD2_CDEFS_H_
 
 
 #define MIN(a,b) ((a)<(b)?(a):(b))
