@@ -5,13 +5,12 @@
 #define MIN(a,b) ((a)<(b)?(a):(b))
 #define MAX(a,b) ((a)>(b)?(a):(b))
 
-#define THROW_MEMERR error("unable to allocate necessary memory")
 #define CHECKMALLOC(ptr) if (ptr == NULL) return -1;
-
-#define THROW_LAPACKERR(info) error("LAPACK returned error code %d", info)
-#define CHECKINFO(info) if (info!=0) THROW_LAPACKERR(info)
-
 #define FREE(ptr) if(ptr!=NULL) free(ptr)
+
+#define LINMOD_TRY_MALLOC(n, x) \
+  x = malloc(n * sizeof(*x)); \
+  if (x == NULL) goto OOM
 
 
 #endif
