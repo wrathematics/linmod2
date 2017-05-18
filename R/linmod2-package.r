@@ -3,7 +3,7 @@
 #' @description
 #' TODO
 #' 
-#' @useDynLib linmod2, R_lm_fit, R_lm_fit_minimal
+#' @useDynLib linmod2, R_dot_lm_fit, R_dot_lm_fit_minimal
 #' 
 #' @docType package
 #' @name linmod2-package

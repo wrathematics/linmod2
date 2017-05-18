@@ -1,7 +1,7 @@
 #include "linmod2.h"
 
 
-SEXP R_lm_fit_minimal(SEXP x, SEXP y, SEXP intercept)
+SEXP R_dot_lm_fit_minimal(SEXP x, SEXP y, SEXP intercept)
 {
   SEXP ret, ret_names;
   SEXP coef, resid, fttd, eff, incpt_;
@@ -76,7 +76,7 @@ SEXP R_lm_fit_minimal(SEXP x, SEXP y, SEXP intercept)
 
 
 
-SEXP R_lm_fit(SEXP x, SEXP y, SEXP intercept)
+SEXP R_dot_lm_fit(SEXP x, SEXP y, SEXP intercept)
 {
   SEXP ret, ret_names;
   SEXP qr, coef, resid, eff;
