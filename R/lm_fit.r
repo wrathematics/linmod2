@@ -1,6 +1,11 @@
-#' Linear Model Fitter
+#' @title Linear Model Fitter
 #' 
 #' A basic linear model fitter.
+#' 
+#' @description
+#' The "minimal" function does not do less work. Instead, it is minimal in the
+#' return, in that it does not return unnecessary QR or miscellaneous, easily
+#' inferred information.
 #' 
 #' @param x 
 #' The input data matrix.
