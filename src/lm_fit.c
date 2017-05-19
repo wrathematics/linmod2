@@ -202,7 +202,7 @@ SEXP R_lm_fit(SEXP x, SEXP y, SEXP intercept)
   
   INT(rank) = MIN(m, n);
   DBL(tol) = 1e-8;
-  INT(df_resid) = n-1;
+  INT(df_resid) = m - INT(rank);
   
   for (int i=0; i<n; i++)
     INT(pivot, i) = i+1;
