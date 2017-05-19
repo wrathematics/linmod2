@@ -24,6 +24,9 @@ cmp(x %*% mdl1$coefficients, x %*% mdl2$coefficients)
 cmp(mdl1$fitted.values, mdl2$fitted.values)
 cmp(mdl1$residuals, mdl2$residuals)
 
+stopifnot(all.equal(mdl1$rank, mdl2$rank))
+stopifnot(all.equal(mdl1$df.residual, mdl2$df.residual))
+
 
 
 # ---------------- Short and wide ----------------
@@ -38,3 +41,6 @@ fit(x, y)
 
 cmp(mdl1$residuals, mdl2$residuals)
 cmp(mdl1$fitted.values, mdl2$fitted.values)
+
+stopifnot(all.equal(mdl1$rank, mdl2$rank))
+stopifnot(all.equal(mdl1$df.residual, mdl2$df.residual))
