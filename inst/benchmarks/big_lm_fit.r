@@ -12,4 +12,4 @@ y = rnorm(m)
 
 
 #benchmark(.lm.fit(x, y), .lm_fit(x, y), .lm_fit_minimal(x, y), replications=reps, columns=cols)
-benchmark(.lm.fit(x, y), .lm_fit(x, y), replications=reps, columns=cols)
+benchmark(lm.fit(x, y), lm_fit(x, y), replications=reps, columns=cols)
