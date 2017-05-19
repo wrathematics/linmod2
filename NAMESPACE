@@ -2,4 +2,5 @@
 
 export(.lm_fit)
 export(.lm_fit_minimal)
-useDynLib(linmod2, R_dot_lm_fit, R_dot_lm_fit_minimal)
+export(lm_fit)
+useDynLib(linmod2, R_dot_lm_fit, R_dot_lm_fit_minimal, R_lm_fit)

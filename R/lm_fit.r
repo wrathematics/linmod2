@@ -43,3 +43,10 @@ NULL
 {
   .Call(R_dot_lm_fit, x, y, intercept)
 }
+
+#' @rdname lm_fit
+#' @export
+lm_fit <- function(x, y, intercept=FALSE)
+{
+  .Call(R_lm_fit, x, y, intercept)
+}
