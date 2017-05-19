@@ -4,8 +4,8 @@ set.seed(1234)
 cmp <- function(a, b) stopifnot(all.equal(as.matrix(a), b))
 fit <- function(x, y)
 {
-  mdl1 <<- .lm.fit(x, y)
-  mdl2 <<- .lm_fit_minimal(x, y)
+  mdl1 <<- lm.fit(x, y)
+  mdl2 <<- lm_fit(x, y)
 }
 
 m = 20
@@ -20,16 +20,8 @@ y = rnorm(m)
 fit(x, y)
 
 cmp(mdl1$coefficients, mdl2$coefficients)
-cmp(x %*% mdl1$coefficients, mdl2$fitted.values)
-cmp(mdl1$residuals, mdl2$residuals)
-
-
-# 3 RHS
-y = matrix(rnorm(m*3), m, 3)
-fit(x, y)
-
-cmp(mdl1$coefficients, mdl2$coefficients)
-cmp(x %*% mdl1$coefficients, mdl2$fitted.values)
+cmp(x %*% mdl1$coefficients, x %*% mdl2$coefficients)
+cmp(mdl1$fitted.values, mdl2$fitted.values)
 cmp(mdl1$residuals, mdl2$residuals)
 
 
@@ -45,13 +37,4 @@ y = y[1:n]
 fit(x, y)
 
 cmp(mdl1$residuals, mdl2$residuals)
-cmp(x %*% mdl1$coefficients, mdl2$fitted.values)
-
-
-# 3 RHS
-
-y = matrix(rnorm(n*3), n, 3)
-fit(x, y)
-
-cmp(mdl1$residuals, mdl2$residuals)
-cmp(x %*% mdl1$coefficients, mdl2$fitted.values)
+cmp(mdl1$fitted.values, mdl2$fitted.values)
