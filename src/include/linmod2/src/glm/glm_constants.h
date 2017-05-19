@@ -1,0 +1,53 @@
+#ifndef __LINMOD2_GLM_CONSTANTS__
+#define __LINMOD2_GLM_CONSTANTS__
+
+
+/* glm_fit() errors */
+#define GLM_OOM -2147483647
+
+#define GLM_BADINPUT_STOPRULE -4
+#define GLM_BADINPUT_N -5
+#define GLM_BADINPUT_P -6
+#define GLM_BADINPUT_FAMILY -8
+#define GLM_BADINPUT_MAXITER -13
+#define GLM_BADINPUT_TOL -14
+
+/* Family parameters */
+#define GLM_FAMILY_UNSUPPORTED -1
+#define GLM_FAMILY_GAUSSIAN 1
+#define GLM_FAMILY_BINOMIAL 2
+#define GLM_FAMILY_POISSON 3
+#define GLM_FAMILY_GAMMA 4
+#define GLM_FAMILY_INVERSEGAUSSIAN 5
+
+#define GLM_FAMILY_BADMU -101
+
+/* Link function parameters */
+#define GLM_LINK_UNSUPPORTED -2
+#define GLM_LINK_CLOGLOG 1
+#define GLM_LINK_IDENTITY 2
+#define GLM_LINK_INVERSE 3
+#define GLM_LINK_LOG 4
+#define GLM_LINK_LOGIT 5
+#define GLM_LINK_SQRT 6
+#define GLM_LINK_PROBIT 7
+#define GLM_LINK_CAUCHIT 8
+#define GLM_LINK_INVERSESQUARE 9
+
+/* Intercept parameters */
+#define GLM_INTERCEPT_NO 0
+#define GLM_INTERCEPT_YES 1
+
+/* Stoprule */
+#define GLM_STOPRULE_MAXITER 1
+#define GLM_STOPRULE_COEFS 2
+#define GLM_STOPRULE_DEVIANCE 3
+
+/* Convergence */
+#define GLM_CONVERGENCES_NONCONVERGENCE -1
+#define GLM_CONVERGENCES_CONVERGED 1
+#define GLM_CONVERGENCES_INFPARAMS 2
+#define GLM_CONVERGENCES_NOCHANGE 3
+  
+
+#endif
