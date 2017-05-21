@@ -1,7 +1,7 @@
 #ifndef __LINMOD2_LAPACK_H__
 #define __LINMOD2_LAPACK_H__
 
-#include "types.h"
+#include "../internal/types.h"
 
 // QR
 void dgeqrf_(cint_r m, cint_r n, dbl_r a, cint_r lda, dbl_r tau, dbl_r work,
