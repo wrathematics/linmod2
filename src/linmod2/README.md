@@ -3,10 +3,10 @@
 * **Version:** 0.1-0
 * **License:** [![License](http://img.shields.io/badge/license-BSD%202--Clause-orange.svg?style=flat)](http://opensource.org/licenses/BSD-2-Clause)
 * **Author:** Drew Schmidt
-* Project home: https://github.com/wrathematics/linmod2
-* Bug reports: https://github.com/wrathematics/linmod2/issues
-* Email: wrathematics .AT. gmail .DOT. com
-* Twitter: @wrathematics
+* **Project home**: https://github.com/wrathematics/linmod2
+* **Bug reports**: https://github.com/wrathematics/linmod2/issues
+* **Email**: wrathematics .AT. gmail .DOT. com
+* **Twitter**: @wrathematics
 
 
 **linmod2** is an efficient, portable, numerically stable C99 library for fitting linear and generalized linear models.  The primary functions `lm_fit()` and `glm_fit()` are meant to operate similarly to the R language's own `lm.fit()` and `glm.fit()` functions.
