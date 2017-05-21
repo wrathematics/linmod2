@@ -81,8 +81,8 @@ n = 500
 x = matrix(rnorm(m*n), m, n)
 y = rnorm(m)
 
-benchmark(.lm.fit(x, y), .lm_fit(x, y), replications=25)
-##            test replications elapsed relative
-## 2 .lm_fit(x, y)            5   1.133    1.000
-## 1 .lm.fit(x, y)            5   9.497    8.382
+benchmark(lm.fit(x, y), lm_fit(x, y), replications=25)
+##           test replications elapsed relative
+## 2 lm_fit(x, y)            5   1.095    1.000
+## 1 lm.fit(x, y)            5   9.590    8.758
 ```
