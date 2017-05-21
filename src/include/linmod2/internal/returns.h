@@ -1,5 +1,5 @@
-#ifndef __LINMOD2_RETURNS__
-#define __LINMOD2_RETURNS__
+#ifndef __LINMOD2_INTERNAL_RETURNS__
+#define __LINMOD2_INTERNAL_RETURNS__
 
 
 #define LINMOD2_OK 0
