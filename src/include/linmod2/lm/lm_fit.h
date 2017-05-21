@@ -3,9 +3,9 @@
 
 #include "types.h"
 
+#include "../matlib/matmult.h"
+
 #include "../internal/cdefs.h"
-#include "../internal/lapack.h"
-#include "../internal/mmult.h"
 #include "../internal/returns.h"
 #include "../internal/types.h"
 
