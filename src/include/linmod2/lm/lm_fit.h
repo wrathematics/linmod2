@@ -1,28 +1,13 @@
-#ifndef __LINMOD2_LM__
-#define __LINMOD2_LM__
+#ifndef __LINMOD2_LM_FIT__
+#define __LINMOD2_LM_FIT__
 
-#include "internal/cdefs.h"
-#include "internal/lapack.h"
-#include "internal/types.h"
+#include "types.h"
 
-
-typedef struct linmodel
-{
-  int m;
-  int n;
-  int max_mn;
-  int nrhs;
-  double *restrict x;
-  double *restrict oldx; // keeping the copy around improves performance a bit
-  const double *restrict y;
-  double *restrict coef;
-  double *restrict resid;
-  double *restrict fttd;
-  double *restrict eff;
-  double *restrict qraux; // NOTE set to NULL if you don't want the return
-  int info;
-} linmodel_t;
-
+#include "../internal/cdefs.h"
+#include "../internal/lapack.h"
+#include "../internal/mmult.h"
+#include "../internal/returns.h"
+#include "../internal/types.h"
 
 
 static inline int lm_init(const int ret_qraux, const int m, const int n, const int nrhs, double *restrict x, double *restrict y, linmodel_t *restrict lm)
@@ -183,7 +168,6 @@ static inline void lm_compute_effects(linmodel_t *const restrict lm, dbl_r work,
 
 
 
-#include "internal/mmult.h"
 static inline void lm_compute_fitted(linmodel_t *const restrict lm, dbl_r work, cint lwork)
 {
   const char side = 'L';
