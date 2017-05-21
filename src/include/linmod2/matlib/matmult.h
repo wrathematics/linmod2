@@ -1,5 +1,5 @@
-#ifndef __MMULT_H__
-#define __MMULT_H__
+#ifndef __MATLIB_MATMULT__
+#define __MATLIB_MATMULT__
 
 
 #include <stdbool.h>
