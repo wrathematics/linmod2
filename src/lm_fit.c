@@ -1,5 +1,5 @@
 #include "linmod2.h"
-#include "include/linmod2/lm.h"
+#include "linmod2/lm.h"
 
 SEXP R_dot_lm_fit_minimal(SEXP x, SEXP y, SEXP intercept)
 {
