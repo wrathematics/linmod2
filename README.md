@@ -4,13 +4,16 @@
 * **Status:** [![Build Status](https://travis-ci.org/wrathematics/linmod2.png)](https://travis-ci.org/wrathematics/linmod2)
 * **License:** [![License](http://img.shields.io/badge/license-BSD%202--Clause-orange.svg?style=flat)](http://opensource.org/licenses/BSD-2-Clause)
 * **Author:** Drew Schmidt
-
+* Project home: https://github.com/wrathematics/linmod2
+* Bug reports: https://github.com/wrathematics/linmod2/issues
+* Email: wrathematics .AT. gmail .DOT. com
+* Twitter: @wrathematics
 
 Fast, portable, numerically stable linear and generalized linear model fitters for C and R.
 
 Progress:
 * lm fitter (~75% done)
-* glm fitter (0% done)
+* glm fitter (~5% done)
 
 
 ## Background
@@ -82,15 +85,3 @@ benchmark(.lm.fit(x, y), .lm_fit(x, y), replications=25)
 ## 2 .lm_fit(x, y)            5   1.133    1.000
 ## 1 .lm.fit(x, y)            5   9.497    8.382
 ```
-
-
-
-## Contact
-
-I prefer issues to be raised on github, but there are various ways to contact me for whatever reason:
-
-* Author: Drew Schmidt
-* Project home: https://github.com/wrathematics/linmod2
-* Bug reports: https://github.com/wrathematics/linmod2/issues
-* Email: wrathematics .AT. gmail .DOT. com
-* Twitter: @wrathematics
