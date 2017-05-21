@@ -6,8 +6,6 @@
 #include "include/reactor.h"
 #include "include/RNACI.h"
 
-#include "include/linmod2/linmod2.h"
-
 
 // utils.c
 SEXP make_lmfit_default_coefnames(const int n);
