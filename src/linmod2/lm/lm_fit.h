@@ -1,7 +1,7 @@
 #ifndef __LINMOD2_LM_FIT__
 #define __LINMOD2_LM_FIT__
 
-#include "types.h"
+#include "lm_types.h"
 
 #include "../matlib/matmult.h"
 
