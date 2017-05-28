@@ -1,5 +1,5 @@
-#ifndef __LINMOD2_LAPACK_H__
-#define __LINMOD2_LAPACK_H__
+#ifndef __LINMOD2_MATLIB_LAPACK__
+#define __LINMOD2_MATLIB_LAPACK__
 
 #include "../internal/types.h"
 

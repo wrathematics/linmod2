@@ -1,5 +1,5 @@
-#ifndef __MATLIB_MATMULT__
-#define __MATLIB_MATMULT__
+#ifndef __LINMOD2_MATLIB_MATMULT__
+#define __LINMOD2_MATLIB_MATMULT__
 
 
 #include <stdbool.h>
