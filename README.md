@@ -3,10 +3,7 @@
 * **Version:** 0.1-0
 * **Status:** [![Build Status](https://travis-ci.org/wrathematics/linmod2.png)](https://travis-ci.org/wrathematics/linmod2)
 * **License:** [![License](http://img.shields.io/badge/license-BSD%202--Clause-orange.svg?style=flat)](http://opensource.org/licenses/BSD-2-Clause)
-* **Author:** Drew Schmidt
-* **Author:** Drew Schmidt
-    - **Email**: wrathematics .AT. gmail .DOT. com
-    - **Twitter**: @wrathematics
+* **Author:** Drew Schmidt (wrathematics .AT. gmail .DOT. com)
 * **Project home**: https://github.com/wrathematics/linmod2
 * **Bug reports**: https://github.com/wrathematics/linmod2/issues
 
